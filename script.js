@@ -307,8 +307,13 @@ function dictReplace(text, d) {
 }
 
 function removeSpacesAndUppercaseNext(text) {
-    return text.replace(/ +([a-z])/g, (_, letter) => letter.toUpperCase())
-               .replace(/[ -]+/g, "");
+    // replace lower-case letters after a space/hyphen/period
+    text = text.replace(/\b([a-z])/g, (_, letter) => letter.toUpperCase());
+    // replace lower-case letter after the date:
+    text = text.replace(/(\d+)([a-z])/g, (_, date, letter) => date+letter.toUpperCase());
+    // remove spaces and hyphens:
+    text = text.replace(/[ -]+/g, "");
+    return text;
 }
 
 function countWords(text){
